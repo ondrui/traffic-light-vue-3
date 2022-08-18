@@ -29,16 +29,8 @@ export default {
     });
   },
 };
-
-// export default {
-//   name: "HelloWorld",
-//   props: {
-//     msg: String,
-//   },
-// };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 #trafficlight div:nth-child(1),
 #trafficlight div:nth-child(2),
