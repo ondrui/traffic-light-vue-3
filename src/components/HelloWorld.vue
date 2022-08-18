@@ -1,114 +1,92 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br />
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"
-        >vue-cli documentation</a
-      >.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel"
-          target="_blank"
-          rel="noopener"
-          >babel</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint"
-          target="_blank"
-          rel="noopener"
-          >eslint</a
-        >
-      </li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li>
-        <a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a>
-      </li>
-      <li>
-        <a href="https://forum.vuejs.org" target="_blank" rel="noopener"
-          >Forum</a
-        >
-      </li>
-      <li>
-        <a href="https://chat.vuejs.org" target="_blank" rel="noopener"
-          >Community Chat</a
-        >
-      </li>
-      <li>
-        <a href="https://twitter.com/vuejs" target="_blank" rel="noopener"
-          >Twitter</a
-        >
-      </li>
-      <li>
-        <a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a>
-      </li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li>
-        <a href="https://router.vuejs.org" target="_blank" rel="noopener"
-          >vue-router</a
-        >
-      </li>
-      <li>
-        <a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/vue-devtools#vue-devtools"
-          target="_blank"
-          rel="noopener"
-          >vue-devtools</a
-        >
-      </li>
-      <li>
-        <a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener"
-          >vue-loader</a
-        >
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-          rel="noopener"
-          >awesome-vue</a
-        >
-      </li>
-    </ul>
+  <div id="trafficlight" v-bind:class="titleClass">
+    <div title="Красный"></div>
+    <div title="Жёлтый"></div>
+    <div title="Зеленый"></div>
   </div>
 </template>
 
 <script>
+import io from "socket.io-client";
+
 export default {
-  name: "HelloWorld",
-  props: {
-    msg: String,
+  data() {
+    return {
+      //titleClass: "yellow",
+      socket: io("localhost:3000"),
+      titleClass: "",
+    };
+  },
+  mounted() {
+    this.socket.on("connect", () => {
+      this.socket.on("message", (data) => {
+        if (data === "get color") {
+          this.socket.emit("message", this.titleClass);
+        } else {
+          this.titleClass = data;
+        }
+      });
+    });
   },
 };
+
+// export default {
+//   name: "HelloWorld",
+//   props: {
+//     msg: String,
+//   },
+// };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style>
+#trafficlight div:nth-child(1),
+#trafficlight div:nth-child(2),
+#trafficlight div:nth-child(3) {
+  box-sizing: border-box;
+  border: 3px solid black;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin: 10px auto;
+  background-color: grey;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+#trafficlight div:nth-child(2) {
+  animation: сolorBlink 1s infinite alternate;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+
+@keyframes сolorBlink {
+  0% {
+    background: grey;
+  }
+
+  100% {
+    background: yellow;
+  }
 }
-a {
-  color: #42b983;
+
+#trafficlight {
+  box-sizing: border-box;
+  border: 3px solid black;
+  padding: 10px 15px;
+}
+
+.red#trafficlight div:nth-child(1) {
+  background-color: red;
+}
+
+.green#trafficlight div:nth-child(3) {
+  background-color: green;
+}
+
+.red#trafficlight div:nth-child(2),
+.green#trafficlight div:nth-child(2) {
+  animation: none;
+}
+
+.yellow#trafficlight div:nth-child(2) {
+  background-color: yellow;
+  animation: none;
 }
 </style>
