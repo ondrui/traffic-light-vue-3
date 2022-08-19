@@ -1,14 +1,37 @@
 <template>
-  <HelloWorld />
+  <TrafficLight :titleClass="titleClass" />
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import io from "socket.io-client";
+import TrafficLight from "./components/TrafficLight.vue";
 
 export default {
   name: "App",
   components: {
-    HelloWorld,
+    TrafficLight,
+  },
+  data() {
+    return {
+      socket: io("localhost:3000"),
+      titleClass: "",
+    };
+  },
+  methods: {
+    changeColor() {
+      this.socket.on("connect", () => {
+        this.socket.on("message", (data) => {
+          if (data === "get color") {
+            this.socket.emit("message", this.titleClass);
+          } else {
+            this.titleClass = data;
+          }
+        });
+      });
+    },
+  },
+  mounted() {
+    this.changeColor();
   },
 };
 </script>

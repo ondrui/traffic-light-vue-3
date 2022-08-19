@@ -7,26 +7,9 @@
 </template>
 
 <script>
-import io from "socket.io-client";
-
 export default {
-  data() {
-    return {
-      //titleClass: "yellow",
-      socket: io("localhost:3000"),
-      titleClass: "",
-    };
-  },
-  mounted() {
-    this.socket.on("connect", () => {
-      this.socket.on("message", (data) => {
-        if (data === "get color") {
-          this.socket.emit("message", this.titleClass);
-        } else {
-          this.titleClass = data;
-        }
-      });
-    });
+  props: {
+    titleClass: String,
   },
 };
 </script>
