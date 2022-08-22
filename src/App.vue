@@ -1,5 +1,5 @@
 <template>
-  <TrafficLight :titleClass="setColor" />
+  <TrafficLight :titleClass="setColor" :isTrafficBroken="setBrokenTraffic" />
 </template>
 
 <script>
@@ -19,6 +19,9 @@ export default {
   computed: {
     setColor() {
       return this.$store.getters.getColor;
+    },
+    setBrokenTraffic() {
+      return this.$store.getters.getBrokenTraffic;
     },
   },
   methods: {

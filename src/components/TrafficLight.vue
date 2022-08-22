@@ -1,8 +1,16 @@
 <template>
-  <div id="trafficlight" v-bind:class="titleClass">
-    <div title="Красный"></div>
-    <div title="Жёлтый"></div>
-    <div title="Зеленый"></div>
+  <div>
+    <div class="div-alert">
+      <div v-show="isTrafficBroken" class="alert alert-danger" role="alert">
+        Светофор сломан!
+      </div>
+    </div>
+
+    <div id="trafficlight" v-bind:class="titleClass">
+      <div title="Красный"></div>
+      <div title="Жёлтый"></div>
+      <div title="Зеленый"></div>
+    </div>
   </div>
 </template>
 
@@ -10,6 +18,7 @@
 export default {
   props: {
     titleClass: String,
+    isTrafficBroken: Boolean,
   },
 };
 </script>
@@ -45,6 +54,8 @@ export default {
   box-sizing: border-box;
   border: 3px solid black;
   padding: 10px 15px;
+  width: 120px;
+  margin: 0 auto;
 }
 
 .red#trafficlight div:nth-child(1) {
@@ -63,5 +74,10 @@ export default {
 .yellow#trafficlight div:nth-child(2) {
   background-color: yellow;
   animation: none;
+}
+
+.div-alert {
+  height: 58px;
+  margin-bottom: 20px;
 }
 </style>
