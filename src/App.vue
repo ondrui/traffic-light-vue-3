@@ -1,5 +1,5 @@
 <template>
-  <TrafficLight :titleClass="titleClass" />
+  <TrafficLight :titleClass="setColor" />
 </template>
 
 <script>
@@ -14,17 +14,21 @@ export default {
   data() {
     return {
       socket: io("localhost:3000"),
-      titleClass: "",
     };
+  },
+  computed: {
+    setColor() {
+      return this.$store.getters.getColor;
+    },
   },
   methods: {
     changeColor() {
       this.socket.on("connect", () => {
         this.socket.on("message", (data) => {
           if (data === "get color") {
-            this.socket.emit("message", this.titleClass);
+            this.socket.emit("message", this.$store.getters.getColor);
           } else {
-            this.titleClass = data;
+            this.$store.commit("changeColor", data);
           }
         });
       });
