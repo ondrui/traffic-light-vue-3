@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 const store = createStore({
   state() {
     return {
-      titleClass: "red green big boss",
+      titleClass: "yellow",
       isTrafficBroken: true,
     };
   },

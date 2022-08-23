@@ -3,4 +3,5 @@ export const switchCodeColor = {
   6: "green",
   2: "red",
   1: "yellow",
+  0: "",
 };

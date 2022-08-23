@@ -22,11 +22,12 @@ export default {
   data() {
     return {
       socket: io("localhost:3000"),
+      sideClasses: "bad dad",
     };
   },
   computed: {
     setColor() {
-      return this.$store.getters.getColor;
+      return `${this.$store.getters.getColor} ${this.sideClasses}`;
     },
     setBrokenTraffic() {
       return this.$store.getters.getBrokenTraffic;
@@ -40,14 +41,24 @@ export default {
     },
     changeColor() {
       this.socket.on("connect", () => {
-        console.log("socket connect");
+        console.log("connection ok");
         this.socket.on("message", (data) => {
           if (data === "get color") {
-            this.socket.emit("message", this.handler());
+            this.socket.emit("message", this.handler()["sum"]);
+            this.sideClasses = this.handler()["uniqArrBadClasses"];
           } else {
             this.$store.commit("changeColor", data);
           }
         });
+
+        // this.socket.on("connect_error", (err) => {
+        //   console.log(`event: connect_error | reason: ${err.message}`);
+        // });
+
+        // this.socket.on("disconnect", (reason) => {
+        //   console.log("Disconnected");
+        //   console.log(`event: disconnect | reason: ${reason}`);
+        // });
       });
     },
   },
