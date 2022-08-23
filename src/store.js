@@ -1,10 +1,10 @@
 import { createStore } from "vuex";
-import handlerColor from "../handlerColor";
+import handlerColor from "./handlers/handlerColor";
 
 const store = createStore({
   state() {
     return {
-      titleClass: "red big boss",
+      titleClass: "red green big boss",
       isTrafficBroken: true,
     };
   },
