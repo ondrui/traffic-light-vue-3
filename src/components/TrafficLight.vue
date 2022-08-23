@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="div-alert">
-      <div v-show="isTrafficBroken" class="alert alert-danger" role="alert">
+      <div v-show="setBrokenTraffic" class="alert alert-danger" role="alert">
         Светофор сломан!
       </div>
     </div>
 
-    <div id="trafficlight" v-bind:class="titleClass">
+    <div id="trafficlight" :class="setColor">
       <div title="Красный"></div>
       <div title="Жёлтый"></div>
       <div title="Зеленый"></div>
@@ -15,10 +15,45 @@
 </template>
 
 <script>
+import io from "socket.io-client";
+import handlerColor from "../handlers/handlerColor";
+
 export default {
-  props: {
-    titleClass: String,
-    isTrafficBroken: Boolean,
+  data() {
+    return {
+      socket: io("localhost:3000"),
+    };
+  },
+  computed: {
+    setColor() {
+      return this.$store.getters.getColor;
+    },
+    setBrokenTraffic() {
+      return this.$store.getters.getBrokenTraffic;
+    },
+  },
+  methods: {
+    handler() {
+      let trafficlight = document.querySelector("#trafficlight").className;
+
+      return handlerColor(trafficlight);
+    },
+    changeColor() {
+      this.socket.on("connect", () => {
+        console.log("socket connect");
+        this.socket.on("message", (data) => {
+          if (data === "get color") {
+            this.socket.emit("message", this.handler());
+          } else {
+            this.$store.commit("changeColor", data);
+          }
+        });
+      });
+    },
+  },
+  mounted() {
+    console.log("mounted");
+    this.changeColor();
   },
 };
 </script>

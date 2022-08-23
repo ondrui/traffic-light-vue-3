@@ -1,44 +1,14 @@
 <template>
-  <TrafficLight :titleClass="setColor" :isTrafficBroken="setBrokenTraffic" />
+  <TrafficLight />
 </template>
 
 <script>
-import io from "socket.io-client";
 import TrafficLight from "./components/TrafficLight.vue";
 
 export default {
   name: "App",
   components: {
     TrafficLight,
-  },
-  data() {
-    return {
-      socket: io("localhost:3000"),
-    };
-  },
-  computed: {
-    setColor() {
-      return this.$store.getters.getColor;
-    },
-    setBrokenTraffic() {
-      return this.$store.getters.getBrokenTraffic;
-    },
-  },
-  methods: {
-    changeColor() {
-      this.socket.on("connect", () => {
-        this.socket.on("message", (data) => {
-          if (data === "get color") {
-            this.socket.emit("message", this.$store.getters.getColor);
-          } else {
-            this.$store.commit("changeColor", data);
-          }
-        });
-      });
-    },
-  },
-  mounted() {
-    this.changeColor();
   },
 };
 </script>

@@ -16,12 +16,12 @@ const handlerColor = (str) => {
     return total.filter((item) => classes.includes(item));
   }, []);
 
-  // const uniqArrBadClasses = str.split(" ").reduce((total, value) => {
-  //   if (total.indexOf(value) === -1) {
-  //     total.push(value);
-  //   }
-  //   return total.filter((item) => !classes.includes(item));
-  // }, []);
+  const uniqArrBadClasses = str.split(" ").reduce((total, value) => {
+    if (total.indexOf(value) === -1) {
+      total.push(value);
+    }
+    return total.filter((item) => !classes.includes(item));
+  }, []);
 
   const sum = uniqArrClasses.reduce((prev, cur) => {
     if (colorCode[cur] !== undefined) {
@@ -29,16 +29,18 @@ const handlerColor = (str) => {
     }
   }, 0);
 
-  if (switchCodeColor[sum] !== undefined) {
-    return str;
-  } else {
-    return 333;
-  }
+  console.log(uniqArrBadClasses, sum, switchCodeColor[sum]);
+
+  // if (switchCodeColor[sum] !== undefined) {
+  //   return str;
+  // } else {
+  //   return 333;
 
   // return {
   //   uniqArrClasses,
   //   uniqArrBadClasses,
   // };
+  return str;
 };
 
 export default handlerColor;

@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import handlerColor from "./handlers/handlerColor";
 
 const store = createStore({
   state() {
@@ -10,9 +9,9 @@ const store = createStore({
   },
   mutations: {
     changeColor(state, payload) {
-      if (handlerColor(payload)) {
+      if (payload) {
         state.isTrafficBroken = false;
-        state.titleClass = handlerColor(payload);
+        state.titleClass = payload;
       } else {
         console.log("broken");
         store.commit("brokenTraffic");
