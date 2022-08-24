@@ -1,6 +1,11 @@
 import { createStore } from "vuex";
 
-const store = createStore({
+interface RootState {
+  titleClass: string;
+  isTrafficBroken: boolean;
+}
+
+const store = createStore<RootState>({
   state() {
     return {
       titleClass: "yellow",

@@ -1,15 +1,22 @@
 import { switchCodeColor } from "./switchCodeColor";
 
-const handlerColor = (str) => {
+const handlerColor = (str: string) => {
   const classes = ["red", "green", "yellow"];
 
-  const colorCode = {
+  interface CodeColor {
+    [index: string]: number;
+    green: number;
+    yellow: number;
+    red: number;
+  }
+
+  const colorCode: CodeColor = {
     green: 1,
     yellow: 2,
     red: 4,
   };
 
-  const uniqArrClasses = str.split(" ").reduce((total, value) => {
+  const uniqArrClasses = str.split(" ").reduce<string[]>((total, value) => {
     if (total.indexOf(value) === -1) {
       total.push(value);
     }
@@ -18,7 +25,7 @@ const handlerColor = (str) => {
 
   const uniqArrBadClasses = str
     .split(" ")
-    .reduce((total, value) => {
+    .reduce<string[]>((total, value) => {
       if (total.indexOf(value) === -1) {
         total.push(value);
       }
@@ -26,9 +33,11 @@ const handlerColor = (str) => {
     }, [])
     .join(" ");
 
-  const sum = uniqArrClasses.reduce((prev, cur) => {
+  const sum = uniqArrClasses.reduce((prev, cur): number => {
     if (colorCode[cur] !== undefined) {
       return (prev += colorCode[cur]);
+    } else {
+      return 0;
     }
   }, 0);
 
