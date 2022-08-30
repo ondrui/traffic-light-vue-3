@@ -1,4 +1,4 @@
-import { createStore } from "vuex";
+import { createStore, Store } from "vuex";
 
 interface RootState {
   titleClass: string;
@@ -13,7 +13,7 @@ const store = createStore<RootState>({
     };
   },
   mutations: {
-    changeColor(state, payload) {
+    changeColor(state, payload: string) {
       if (payload) {
         state.isTrafficBroken = false;
         state.titleClass = payload;
@@ -36,5 +36,11 @@ const store = createStore<RootState>({
     },
   },
 });
+
+declare module "@vue/runtime-core" {
+  interface ComponentCustomProperties {
+    $store: Store<RootState>;
+  }
+}
 
 export default store;

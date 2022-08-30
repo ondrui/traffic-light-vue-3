@@ -34,17 +34,8 @@ const handlerColor = (str: string) => {
     .join(" ");
 
   const sum = uniqArrClasses.reduce((prev, cur): number => {
-    if (colorCode[cur] !== undefined) {
-      return (prev += colorCode[cur]);
-    } else {
-      return 0;
-    }
+    return (prev += colorCode[cur]);
   }, 0);
-
-  if (switchCodeColor[sum] === undefined) {
-    console.log("некоректные данные!!!");
-    return 0;
-  }
 
   return {
     sum,

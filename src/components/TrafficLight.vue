@@ -14,11 +14,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { defineComponent } from "vue";
 import io from "socket.io-client";
 import handlerColor from "../handlers/handlerColor";
 
-export default {
+export default defineComponent({
   data() {
     return {
       socket: io("localhost:3000"),
@@ -26,7 +27,7 @@ export default {
     };
   },
   computed: {
-    setColor() {
+    setColor(): string {
       return `${this.$store.getters.getColor} ${this.sideClasses}`;
     },
     setBrokenTraffic() {
@@ -35,7 +36,7 @@ export default {
   },
   methods: {
     handler() {
-      let trafficlight = document.querySelector("#trafficlight").className;
+      let trafficlight = document.querySelector("#trafficlight")!.className;
 
       return handlerColor(trafficlight);
     },
@@ -66,7 +67,7 @@ export default {
     console.log("mounted");
     this.changeColor();
   },
-};
+});
 </script>
 
 <style>
