@@ -1,6 +1,6 @@
 import { switchCodeColor } from "./switchCodeColor";
 
-const handlerColor = (str: string) => {
+const handlerColor = (str: string = "") => {
   const classes = ["red", "green", "yellow"];
 
   interface CodeColor {

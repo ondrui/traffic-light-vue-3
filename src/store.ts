@@ -3,6 +3,8 @@ import { createStore, Store } from "vuex";
 interface RootState {
   titleClass: string;
   isTrafficBroken: boolean;
+  amount: number;
+  trafficlight: string[];
 }
 
 const store = createStore<RootState>({
@@ -10,6 +12,8 @@ const store = createStore<RootState>({
     return {
       titleClass: "yellow",
       isTrafficBroken: true,
+      amount: 1,
+      trafficlight: [],
     };
   },
   mutations: {
@@ -26,6 +30,12 @@ const store = createStore<RootState>({
       state.isTrafficBroken = true;
       state.titleClass = "";
     },
+    addTrafficlight(state) {
+      state.trafficlight.push(`trafficlight_${state.amount++}`);
+    },
+    removeTrafficlight(state, payload) {
+      state.trafficlight.splice(state.trafficlight.indexOf(payload), 1);
+    },
   },
   getters: {
     getColor(state) {
@@ -33,6 +43,12 @@ const store = createStore<RootState>({
     },
     getBrokenTraffic(state) {
       return state.isTrafficBroken;
+    },
+    getAmount(state) {
+      return state.amount;
+    },
+    getTraffics(state) {
+      return state.trafficlight;
     },
   },
 });
